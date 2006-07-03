@@ -6,18 +6,21 @@ ad_library {
 
 }
 
-ad_proc integer_to_text -public {
-    -number
-    -locale
+ad_proc -public qap_integer_to_text {
+    {-number:required "0"}
+    {-locale:required ""}
 } {
-    @param number  Currently only translates whole numbers.
-    @param locale
-    @return a written language representation of a number
-    @author ported by Torben Brosten
+    Returns the number represented as a string of internationalized phrases, 
+    using the locale's grammar.
+    Returns the decimal number (unchanged) if the locale is not represented.
+    Read the source comments of this
+    procedure for details on adding locale grammar not yet supported.
 
-    Returns the number unchanged if the locale is not represented. This is ported from 
-    sql-ledger, which has many more locales represented. Read the source comments of this
-    procedure for details in adding locales not yet supported.
+    @param number  translates whole numbers, ignores everything to right of decimal point
+                   assumes number has no formatting separators
+    @param locale 
+    @author Torben Brosten
+
 } {
 
     # Num2text is fragmented into separate files in sql-ledger. Each language has a
@@ -28,6 +31,8 @@ ad_proc integer_to_text -public {
     # Contact info about the procedure is in: sql-ledger/locale/fr/COPYING
 
     # isolate the integer part
+    # Perhaps this should be done mathematically to avoid problems with numbers using something
+    # other than a decimal point when represented by some locales.
     set decimal_loc [string first "." number]
     
     if {$decimal_loc > 0} {

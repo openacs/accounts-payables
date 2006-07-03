@@ -1,4 +1,11 @@
+-- accounts-payables-create.sql
 --
+-- @author Dekka Corp.
+-- @ported from sql-ledger and combined with parts from OpenACS ecommerce package
+-- @license GNU GENERAL PUBLIC LICENSE, Version 2, June 1991
+-- @cvs-id
+--
+
 CREATE TABLE qap_ap (
   id integer DEFAULT nextval ( 'qal_id' ),
   invnumber varchar(100),
